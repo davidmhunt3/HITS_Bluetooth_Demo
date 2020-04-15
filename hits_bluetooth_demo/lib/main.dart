@@ -10,8 +10,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: kScaffoldBackgroundColor),
+      theme: ThemeData.dark().copyWith(
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: kScaffoldBackgroundColor,
+          bottomAppBarColor: kBottomAppBarColor),
       home: LoadingScreen(),
     );
   }

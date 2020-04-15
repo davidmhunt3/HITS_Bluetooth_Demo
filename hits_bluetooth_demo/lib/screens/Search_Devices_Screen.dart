@@ -15,7 +15,7 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Available Devices'),
-        backgroundColor: kAppBarColor,
+        backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false, //gets rid of the back button
         actions: <Widget>[
           Padding(
@@ -38,17 +38,19 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Container(
-          padding: EdgeInsets.only(top: 10.0),
-          constraints: BoxConstraints.tightFor(height: 50),
-          child: Text(
-            'Find Devices',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w900),
-            textAlign: TextAlign.center,
+        child: GestureDetector(
+          onTap: () {
+            print('Find Devices Pressed');
+          },
+          child: Container(
+            padding: EdgeInsets.only(top: kBottomAppBarPadding),
+            constraints:
+                BoxConstraints.tightFor(height: kBottomNavigationBarHeight),
+            child: Text(
+              'Find Devices',
+              style: kBottomAppBarTextStyle,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),
