@@ -10,11 +10,10 @@ class _SearchSettingsScreenState extends State<SearchSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Search Settings'),
       ),
-      body: HelmetViewer(),
+      body: Container(),
     );
   }
 }

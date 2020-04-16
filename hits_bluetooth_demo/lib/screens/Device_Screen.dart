@@ -93,7 +93,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 SizedBox.fromSize(
                   size: Size(double.infinity, 30),
                 ),
-                //HelmetViewer(),
+                HelmetViewer(),
                 SizedBox.fromSize(
                   size: Size(double.infinity, 15),
                 ),
