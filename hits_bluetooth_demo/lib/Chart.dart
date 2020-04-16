@@ -19,22 +19,70 @@ class _ChartState extends State<Chart> {
             LineChartBarData(
               spots: [
                 FlSpot(0, 1),
-                FlSpot(1, .9),
-                FlSpot(2, .8),
-                FlSpot(3, .7),
-                FlSpot(4, .6),
-                FlSpot(5, .5),
-                FlSpot(6, .4),
-                FlSpot(7, .3),
+                FlSpot(1, 1),
+                FlSpot(2, 1),
+                FlSpot(3, 1),
+                FlSpot(4, 1),
+                FlSpot(5, 1),
+                FlSpot(6, 1),
+                FlSpot(7, .4),
                 FlSpot(8, .2),
-                FlSpot(9, .1),
-                FlSpot(10, 0),
-                FlSpot(11, 0),
+                FlSpot(9, .7),
+                FlSpot(10, 1),
+                FlSpot(11, 1),
               ],
               isCurved: true,
               barWidth: 3,
               colors: [
                 Colors.green,
+              ],
+              dotData: FlDotData(
+                show: false,
+              ),
+            ),
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 0.1),
+                FlSpot(1, 0.1),
+                FlSpot(2, 0.1),
+                FlSpot(3, 0.1),
+                FlSpot(4, 0.1),
+                FlSpot(5, 5),
+                FlSpot(6, 7),
+                FlSpot(7, 5),
+                FlSpot(8, 2),
+                FlSpot(9, 0.1),
+                FlSpot(10, 0.1),
+                FlSpot(11, 0.1),
+              ],
+              isCurved: true,
+              barWidth: 3,
+              colors: [
+                Colors.lightBlue,
+              ],
+              dotData: FlDotData(
+                show: false,
+              ),
+            ),
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 0.1),
+                FlSpot(1, 0.1),
+                FlSpot(2, 0.1),
+                FlSpot(3, 0.1),
+                FlSpot(4, 0.1),
+                FlSpot(5, 0.1),
+                FlSpot(6, 0.1),
+                FlSpot(7, 0.1),
+                FlSpot(8, 0.1),
+                FlSpot(9, 0.1),
+                FlSpot(10, 0.1),
+                FlSpot(11, 0.1),
+              ],
+              isCurved: true,
+              barWidth: 3,
+              colors: [
+                Colors.red,
               ],
               dotData: FlDotData(
                 show: false,
@@ -49,52 +97,20 @@ class _ChartState extends State<Chart> {
                     fontSize: 10,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
+                interval: 5,
                 getTitles: (value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return 'Jan';
-                    case 1:
-                      return 'Feb';
-                    case 2:
-                      return 'Mar';
-                    case 3:
-                      return 'Apr';
-                    case 4:
-                      return 'May';
-                    case 5:
-                      return 'Jun';
-                    case 6:
-                      return 'Jul';
-                    case 7:
-                      return 'Aug';
-                    case 8:
-                      return 'Sep';
-                    case 9:
-                      return 'Oct';
-                    case 10:
-                      return 'Nov';
-                    case 11:
-                      return 'Dec';
-                    default:
-                      return '';
-                  }
+                  return value.toString();
                 }),
             leftTitles: SideTitles(
               showTitles: true,
               textStyle: TextStyle(color: Colors.white, fontSize: 11.0),
-              interval: .5,
+              interval: 1,
               getTitles: (value) {
-                print(value);
-                return '\$ ${value + 0}';
+                return value.toString();
               },
             ),
           ),
-          gridData: FlGridData(
-            show: true,
-            checkToShowHorizontalLine: (double value) {
-              return value == 1 || value == 6 || value == 4 || value == 5;
-            },
-          ),
+          gridData: FlGridData(show: true),
         ),
       ),
     );

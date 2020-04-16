@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
 import 'package:hits_bluetooth_demo/Chart.dart';
+import 'package:hits_bluetooth_demo/HelmetViewer.dart';
 
 class DeviceScreen extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Acceleration',
+                  'Accelerometer',
                   style: kDeviceNameTextStyle,
                 ),
                 SizedBox.fromSize(
@@ -63,9 +64,42 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 SizedBox.fromSize(
                   size: Size(double.infinity, 15),
                 ),
-                Text('X-Axis: '),
-                Text('Y-Axis: '),
-                Text('Z-Axis: ')
+                Text('X-Axis: 0.1'),
+                Text('Y-Axis: 0.1'),
+                Text('Z-Axis: 1.0')
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(
+                kDeviceCardMargin,
+                kDeviceCardMargin / 2,
+                kDeviceCardMargin,
+                kDeviceCardMargin / 2),
+            padding: EdgeInsets.all(15.0),
+            decoration: BoxDecoration(
+              color: kDeviceCardBackgroundColor,
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            //constraints: BoxConstraints.expand(height: 100.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Gyroscope',
+                  style: kDeviceNameTextStyle,
+                ),
+                SizedBox.fromSize(
+                  size: Size(double.infinity, 30),
+                ),
+                //HelmetViewer(),
+                SizedBox.fromSize(
+                  size: Size(double.infinity, 15),
+                ),
+                Text('X-Axis: 0.1'),
+                Text('Y-Axis: 0.1'),
+                Text('Z-Axis: 1.0')
               ],
             ),
           ),
