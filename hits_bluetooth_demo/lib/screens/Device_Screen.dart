@@ -59,7 +59,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 SizedBox.fromSize(
                   size: Size(double.infinity, 30),
                 ),
-                Chart()
+                Chart(),
+                SizedBox.fromSize(
+                  size: Size(double.infinity, 15),
+                ),
+                Text('X-Axis: '),
+                Text('Y-Axis: '),
+                Text('Z-Axis: ')
               ],
             ),
           ),

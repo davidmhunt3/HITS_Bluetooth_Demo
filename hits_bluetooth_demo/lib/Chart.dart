@@ -18,18 +18,18 @@ class _ChartState extends State<Chart> {
           lineBarsData: [
             LineChartBarData(
               spots: [
-                FlSpot(0, 1.5),
-                FlSpot(1, 3.5),
-                FlSpot(2, 4.5),
-                FlSpot(3, 1),
-                FlSpot(4, 4),
-                FlSpot(5, 6),
-                FlSpot(6, 6.5),
-                FlSpot(7, 6),
-                FlSpot(8, 4),
-                FlSpot(9, 6),
-                FlSpot(10, 6),
-                FlSpot(11, 7),
+                FlSpot(0, 1),
+                FlSpot(1, .9),
+                FlSpot(2, .8),
+                FlSpot(3, .7),
+                FlSpot(4, .6),
+                FlSpot(5, .5),
+                FlSpot(6, .4),
+                FlSpot(7, .3),
+                FlSpot(8, .2),
+                FlSpot(9, .1),
+                FlSpot(10, 0),
+                FlSpot(11, 0),
               ],
               isCurved: true,
               barWidth: 3,
@@ -82,7 +82,9 @@ class _ChartState extends State<Chart> {
             leftTitles: SideTitles(
               showTitles: true,
               textStyle: TextStyle(color: Colors.white, fontSize: 11.0),
+              interval: .5,
               getTitles: (value) {
+                print(value);
                 return '\$ ${value + 0}';
               },
             ),
