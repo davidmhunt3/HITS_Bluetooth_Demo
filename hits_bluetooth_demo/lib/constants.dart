@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Color(0xFF212121); //also the color of the appBar
+const kPrimaryColor =
+    Colors.black; //Color(0xFF212121); //also the color of the appBar
 const kScaffoldBackgroundColor = Color(0xFF000000);
-const kBottomAppBarColor = Color(0xFF4fc3f7);
+const kAccentColor = Color(0xFF4fc3f7); //color of bottom appBar
 
 //Search Devices Screen
 const kBottomAppBarTextStyle =

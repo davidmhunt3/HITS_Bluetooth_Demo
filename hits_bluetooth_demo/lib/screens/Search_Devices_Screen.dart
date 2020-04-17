@@ -64,7 +64,9 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
             conncectionStatus: 'connected',
           ),
           DeviceCard(
-              deviceName: 'HITS Sensor', conncectionStatus: 'disconnected')
+            deviceName: 'HITS Sensor',
+            conncectionStatus: 'disconnected',
+          )
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hits_bluetooth_demo/HelmetViewer.dart';
 
 class SearchSettingsScreen extends StatefulWidget {
   @override

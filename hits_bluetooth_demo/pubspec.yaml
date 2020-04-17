@@ -12,8 +12,6 @@ dependencies:
 
   cupertino_icons: ^0.1.2
   fl_chart: ^0.9.0
-  flutter_3d_obj: ^0.0.6
-  flutter_cube: ^0.0.5
 
 dev_dependencies:
   flutter_test:
@@ -28,7 +26,6 @@ flutter:
 
   assets:
   - images/
-  - images/Helmet/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

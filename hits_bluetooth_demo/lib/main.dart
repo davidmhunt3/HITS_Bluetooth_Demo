@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: kScaffoldBackgroundColor,
-          bottomAppBarColor: kBottomAppBarColor),
+          bottomAppBarColor: kAccentColor),
       home: LoadingScreen(),
     );
   }
