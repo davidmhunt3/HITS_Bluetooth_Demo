@@ -9,7 +9,7 @@ const kAccentColor = Color(0xFF4fc3f7); //color of bottom appBar
 const kBottomAppBarTextStyle =
     TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.w900);
 const kBottomAppBarPadding = 20.0;
-const kBottomAppBarHeight = 50.0;
+const kBottomAppBarHeight = 100.0;
 
 //Device Card
 const kDeviceCardBackgroundColor = Color(0xFF212121);
