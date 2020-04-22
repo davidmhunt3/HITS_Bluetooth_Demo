@@ -44,30 +44,33 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
           },
           child: Container(
             padding: EdgeInsets.only(top: kBottomAppBarPadding),
-            constraints:
-                BoxConstraints.tightFor(height: kBottomNavigationBarHeight),
-            child: Text(
-              'Find Devices',
-              style: kBottomAppBarTextStyle,
-              textAlign: TextAlign.center,
+            constraints: BoxConstraints.expand(height: kBottomAppBarHeight),
+            child: Center(
+              child: Text(
+                'Find Devices',
+                style: kBottomAppBarTextStyle,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          SizedBox.fromSize(
-            size: Size(double.infinity, kDeviceCardMargin / 2),
-          ),
-          DeviceCard(
-            deviceName: 'HITS Sensor',
-            conncectionStatus: 'connected',
-          ),
-          DeviceCard(
-            deviceName: 'HITS Sensor',
-            conncectionStatus: 'disconnected',
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox.fromSize(
+              size: Size(double.infinity, kDeviceCardMargin / 2),
+            ),
+            DeviceCard(
+              deviceName: 'HITS Sensor',
+              conncectionStatus: 'connected',
+            ),
+            DeviceCard(
+              deviceName: 'HITS Sensor',
+              conncectionStatus: 'disconnected',
+            )
+          ],
+        ),
       ),
     );
   }

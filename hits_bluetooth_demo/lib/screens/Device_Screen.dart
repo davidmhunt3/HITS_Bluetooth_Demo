@@ -74,12 +74,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
           },
           child: Container(
             padding: EdgeInsets.only(top: kBottomAppBarPadding),
-            constraints:
-                BoxConstraints.tightFor(height: kBottomNavigationBarHeight),
-            child: Text(
-              'Re-Center',
-              style: kBottomAppBarTextStyle,
-              textAlign: TextAlign.center,
+            constraints: BoxConstraints.expand(height: kBottomAppBarHeight),
+            child: Center(
+              child: Text(
+                'Re-Center',
+                style: kBottomAppBarTextStyle,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),

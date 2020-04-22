@@ -30,7 +30,7 @@ class DeviceCard extends StatelessWidget {
           color: kDeviceCardBackgroundColor,
           borderRadius: BorderRadius.circular(15.0),
         ),
-        constraints: BoxConstraints.expand(height: 100.0),
+        constraints: BoxConstraints.expand(height: kDeviceCardHeight),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

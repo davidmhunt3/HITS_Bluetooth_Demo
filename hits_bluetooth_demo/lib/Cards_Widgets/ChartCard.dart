@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
-import 'package:hits_bluetooth_demo/Chart.dart';
+import 'package:hits_bluetooth_demo/utilities/Chart.dart';
 
 class SeriesData {
   String title;
