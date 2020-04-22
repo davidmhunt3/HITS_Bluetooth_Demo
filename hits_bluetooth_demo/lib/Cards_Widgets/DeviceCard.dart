@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
 import 'package:hits_bluetooth_demo/screens/Device_Screen.dart';
+import 'package:hits_bluetooth_demo/utilities/BLEDevice.dart';
 
 class DeviceCard extends StatelessWidget {
-  DeviceCard({@required this.deviceName, @required this.conncectionStatus});
-
+  final BLEDevice bleDevice;
   String deviceName;
   String conncectionStatus;
+
+  DeviceCard({@required this.bleDevice}) {
+    deviceName = bleDevice.deviceName;
+    deviceName = bleDevice.deviceState;
+  }
 
   @override
   Widget build(BuildContext context) {

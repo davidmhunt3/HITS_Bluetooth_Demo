@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'Search_Settings_Screen.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
 import 'package:hits_bluetooth_demo/Cards_Widgets/DeviceCard.dart';
+import 'package:hits_bluetooth_demo/utilities/BLEDevicesManager.dart';
+import 'package:hits_bluetooth_demo/utilities/BLEDevice.dart';
 
 class SearchDevicesScreen extends StatefulWidget {
   @override
@@ -10,6 +12,8 @@ class SearchDevicesScreen extends StatefulWidget {
 }
 
 class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
+  //initialize a device manager
+  BLEDevicesManager bleDevicesManager = BLEDevicesManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,22 +60,19 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox.fromSize(
-              size: Size(double.infinity, kDeviceCardMargin / 2),
-            ),
-            DeviceCard(
-              deviceName: 'HITS Sensor',
-              conncectionStatus: 'connected',
-            ),
-            DeviceCard(
-              deviceName: 'HITS Sensor',
-              conncectionStatus: 'disconnected',
-            )
-          ],
-        ),
-      ),
+          child: StreamBuilder<List<BLEDevice>>(
+        stream: bleDevicesManager.scanResultStream,
+        initialData: [],
+        builder: (context, snapshot) {
+          return Column(
+            children: <Widget>[
+              SizedBox.fromSize(
+                size: Size(double.infinity, kDeviceCardMargin / 2),
+              ),
+            ],
+          );
+        },
+      )),
     );
   }
 }
