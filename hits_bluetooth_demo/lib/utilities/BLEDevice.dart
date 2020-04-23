@@ -13,10 +13,22 @@ class BLEDevice {
       deviceName = 'HITS Simulated';
       deviceState = 'connected';
     } else {
-      deviceName = bluetoothDevice.name;
+      deviceName = (bluetoothDevice.name.length > 0)
+          ? bluetoothDevice.name
+          : bluetoothDevice.id.id;
+      //print("BLEDevice: device created");
       bluetoothDevice.state.listen((connectionState) {
-        deviceState = connectionState.toString().split('.')[0];
+        deviceState = connectionState.toString().split('.')[1];
+        //print("BLEdevice: device state set to: $deviceState");
       });
+    }
+  }
+
+  void connect() {
+    if (isDebug) {
+      print('Device: Debug Connected');
+    } else {
+      bluetoothDevice.connect();
     }
   }
 }

@@ -44,44 +44,48 @@ class BLEDevicesManager {
       _bluetoothScanningState = scanState;
     });
 
-//    _scanResults = StreamController<List<BLEDevice>>();
-//    _scanResults.add([]);
-//    _scanResults.close();
-    scan(timeout: Duration(seconds: 4));
+    _scanResults = StreamController<List<BLEDevice>>();
+    //_scanResults.close();
+
+    //process the scan result stream, update the BLEDevices List
+    _flutterBlue.scanResults.listen((results) {
+      BLEDevices = results
+          .where((event) {
+            if (!_showOnlyHitsDevices) {
+              return true;
+            } else {
+              //show only HITS devices
+              return true;
+            }
+          })
+          .map((result) => BLEDevice(bluetoothDevice: result.device))
+          .toList();
+      BLEDevices.addAll(_createSimulatedDevices());
+      _scanResults.sink.add(BLEDevices);
+      print("Scan: result list length: ${BLEDevices.length}");
+    }, onDone: () {
+      print('Scan Complete');
+      _scanResults.close();
+    }, onError: (error) {
+      print('Scan Error: ${error.toString()}');
+      _scanResults.close();
+    });
   }
 
   /*function to search for new devices for a duration of 4 seconds*/
   void scan({@required Duration timeout}) {
-    print('scan called');
+    print('Scan called');
     if (_bluetoothState == BluetoothState.on &&
         _bluetoothScanningState != true) {
       //start a scan and create new scanResult Stream
       _flutterBlue.startScan(timeout: timeout);
-      _scanResults = StreamController<List<BLEDevice>>();
+      //_scanResults = StreamController<List<BLEDevice>>();
 
-      //process the scan result stream, update the BLEDevices List
-      _flutterBlue.scanResults.listen((results) {
-        BLEDevices = results.where((event) {
-          if (!_showOnlyHitsDevices) {
-            return true;
-          } else {
-            //show only HITS devices
-            return true;
-          }
-        }).map((result) => BLEDevice(bluetoothDevice: result.device));
-        BLEDevices.addAll(_createSimulatedDevices());
-        _scanResults.sink.add(BLEDevices);
-      }, onDone: () {
-        print('Scan Complete');
-        _scanResults.close();
-      }, onError: () {
-        print('Scan Error');
-        _scanResults.close();
-      });
     } else {
-      _scanResults = StreamController<List<BLEDevice>>();
+      print('Scan: generating simulated values');
+      //_scanResults = StreamController<List<BLEDevice>>();
       _scanResults.sink.add(_createSimulatedDevices());
-      _scanResults.close();
+      //_scanResults.close();
     }
   }
 

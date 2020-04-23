@@ -44,6 +44,7 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
       bottomNavigationBar: BottomAppBar(
         child: GestureDetector(
           onTap: () {
+            bleDevicesManager.scan(timeout: Duration(seconds: 4));
             print('Find Devices Pressed');
           },
           child: Container(
@@ -69,6 +70,11 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
               SizedBox.fromSize(
                 size: Size(double.infinity, kDeviceCardMargin / 2),
               ),
+              Column(
+                children: snapshot.data
+                    .map((device) => DeviceCard(bleDevice: device))
+                    .toList(),
+              )
             ],
           );
         },

@@ -17,3 +17,5 @@ const kDeviceCardMargin = 15.0;
 const kDeviceCardHeight = 100.0;
 const kDeviceNameTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
+const kDeviceNameTextStyleSmall =
+    TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700);

@@ -6,11 +6,11 @@ import 'package:hits_bluetooth_demo/utilities/BLEDevice.dart';
 class DeviceCard extends StatelessWidget {
   final BLEDevice bleDevice;
   String deviceName;
-  String conncectionStatus;
+  String connectionStatus;
 
   DeviceCard({@required this.bleDevice}) {
     deviceName = bleDevice.deviceName;
-    deviceName = bleDevice.deviceState;
+    connectionStatus = bleDevice.deviceState;
   }
 
   @override
@@ -18,14 +18,15 @@ class DeviceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('$deviceName selected');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DeviceScreen();
-            },
-          ),
-        );
+        bleDevice.connect();
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (context) {
+//              return DeviceScreen();
+//            },
+//          ),
+//        );
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(kDeviceCardMargin, kDeviceCardMargin / 2,
@@ -39,12 +40,20 @@ class DeviceCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              deviceName,
-              style: kDeviceNameTextStyle,
+            Container(
+              width: 150,
+              child: Text(
+                deviceName,
+                style: (deviceName.length < 20)
+                    ? kDeviceNameTextStyle
+                    : kDeviceNameTextStyleSmall,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            Text(conncectionStatus)
+            Text(connectionStatus)
           ],
         ),
       ),
