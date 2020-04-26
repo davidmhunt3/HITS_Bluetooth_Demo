@@ -4,37 +4,35 @@ import 'package:hits_bluetooth_demo/Cards_Widgets/ValueCard.dart';
 import 'package:hits_bluetooth_demo/Cards_Widgets/ChartCard.dart';
 import 'package:hits_bluetooth_demo/Cards_Widgets/DataCard.dart';
 import 'dart:math';
+import 'package:hits_bluetooth_demo/utilities/BLEDevice.dart';
+import 'package:hits_bluetooth_demo/utilities/DataProcessor.dart';
 
 class DeviceScreen extends StatefulWidget {
+  final BLEDevice bleDevice;
+
+  DeviceScreen({@required this.bleDevice});
+
   @override
   _DeviceScreenState createState() => _DeviceScreenState();
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-  SeriesData xAcc = SeriesData(
-      title: 'X-Axis',
-      series: [1, 1, 1, 1, 1, 1, .7, .2, .7, 1, 1],
-      color: Colors.red);
-  SeriesData yAcc = SeriesData(
-      title: 'Y-Axis',
-      series: [0, 0, 0, 0, 0, 0, 2, 7, .1, 0, 0],
-      color: Colors.green);
-  SeriesData zAcc = SeriesData(
-      title: 'Z-Axis',
-      series: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      color: Colors.lightBlue);
-  SeriesData xGyro = SeriesData(
-      title: 'X-Axis',
-      series: [10, 10, 10, 9, 15, 8, 5, 4, 3, 1, 1],
-      color: Colors.red);
-  SeriesData yGyro = SeriesData(
-      title: 'Y-Axis',
-      series: [0, 0, 0, 0, 5, 9, 15, 13, 10, 10, 10],
-      color: Colors.yellow);
-  SeriesData zGyro = SeriesData(
-      title: 'Z-Axis',
-      series: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      color: Colors.lightBlue);
+  //the device and corresponding data processor
+  BLEDevice bleDevice;
+  DataProcessor dataProcessor;
+
+  //stream variables that will produce the real-time data
+  Stream<List<List<double>>> loAccBufferStream;
+  Stream<List<List<double>>> gyroBufferStream;
+
+  //Series Data Objects for plotting the acceleration and gyroscope
+  SeriesData xAcc;
+  SeriesData yAcc;
+  SeriesData zAcc;
+  SeriesData xGyro;
+  SeriesData yGyro;
+  SeriesData zGyro;
+
   double pitch = 40.0;
   double roll = 10.5;
   double yaw = 90.0;
@@ -43,19 +41,44 @@ class _DeviceScreenState extends State<DeviceScreen> {
   double distance = 1;
 
   void randomizeValues() {
-    Random randomGenerator = Random.secure();
-    List<SeriesData> listsToRandomize = [xAcc, yAcc, zAcc];
-    for (int i = 0; i < listsToRandomize.length; i++) {
-      for (int j = 0; j < listsToRandomize[i].series.length; j++) {
-        listsToRandomize[i].series[j] = randomGenerator.nextInt(10).toDouble();
-      }
-    }
-    listsToRandomize = [xGyro, yGyro, zGyro];
-    for (int i = 0; i < listsToRandomize.length; i++) {
-      for (int j = 0; j < listsToRandomize[i].series.length; j++) {
-        listsToRandomize[i].series[j] = randomGenerator.nextInt(15).toDouble();
-      }
-    }
+    print('Device_Screen: randomizeValues function disabled');
+//    Random randomGenerator = Random.secure();
+//    List<SeriesData> listsToRandomize = [xAcc, yAcc, zAcc];
+//    for (int i = 0; i < listsToRandomize.length; i++) {
+//      for (int j = 0; j < listsToRandomize[i].series.length; j++) {
+//        listsToRandomize[i].series[j] = randomGenerator.nextInt(10).toDouble();
+//      }
+//    }
+//    listsToRandomize = [xGyro, yGyro, zGyro];
+//    for (int i = 0; i < listsToRandomize.length; i++) {
+//      for (int j = 0; j < listsToRandomize[i].series.length; j++) {
+//        listsToRandomize[i].series[j] = randomGenerator.nextInt(15).toDouble();
+//      }
+//    }
+  }
+
+  void initGyroLoAccSeriesData() {
+    xAcc = SeriesData(title: 'X-Axis', color: Colors.red);
+    yAcc = SeriesData(title: 'Y-Axis', color: Colors.green);
+    zAcc = SeriesData(title: 'Z-Axis', color: Colors.lightBlue);
+    xGyro = SeriesData(title: 'X-Axis', color: Colors.red);
+    yGyro = SeriesData(title: 'Y-Axis', color: Colors.yellow);
+    zGyro = SeriesData(title: 'Z-Axis', color: Colors.lightBlue);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    bleDevice = super.widget.bleDevice;
+    dataProcessor = bleDevice.dataProcessor;
+
+    //initialize streams
+    loAccBufferStream = dataProcessor.accBufferStream;
+    gyroBufferStream = dataProcessor.gyroBufferStream;
+
+    //initialize data series
+    initGyroLoAccSeriesData();
   }
 
   @override
@@ -94,6 +117,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
             ChartCard(
               title: "Accelerometer G's",
               chartData: [xAcc, yAcc, zAcc],
+              dataSeriesStream: loAccBufferStream,
+              chartLeftTitleInterval: 1.0,
             ),
             DataCard(title: 'Performance', children: [
               ValueCard(value: hits.toString(), label: 'Hits'),
@@ -101,7 +126,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
               ValueCard(value: distance.toStringAsFixed(1), label: 'Distance')
             ]),
             ChartCard(
-                title: 'Gyroscope Data', chartData: [xGyro, yGyro, zGyro]),
+              title: 'Gyroscope Data',
+              chartData: [xGyro, yGyro, zGyro],
+              dataSeriesStream: gyroBufferStream,
+              chartLeftTitleInterval: 100.0,
+            ),
             DataCard(
               title: 'Orientation',
               children: <Widget>[

@@ -65,18 +65,35 @@ class _SearchDevicesScreenState extends State<SearchDevicesScreen> {
         stream: bleDevicesManager.scanResultStream,
         initialData: [],
         builder: (context, snapshot) {
-          return Column(
-            children: <Widget>[
-              SizedBox.fromSize(
-                size: Size(double.infinity, kDeviceCardMargin / 2),
-              ),
-              Column(
-                children: snapshot.data
-                    .map((device) => DeviceCard(bleDevice: device))
-                    .toList(),
-              )
-            ],
-          );
+          if (snapshot.data.length > 0) {
+            return Column(
+              children: <Widget>[
+                SizedBox.fromSize(
+                  size: Size(double.infinity, kDeviceCardMargin / 2),
+                ),
+                Column(
+                  children: snapshot.data
+                      .map((device) => DeviceCard(bleDevice: device))
+                      .toList(),
+                )
+              ],
+            );
+          } else {
+            //if no devices are found
+            return Column(
+              children: <Widget>[
+                SizedBox.fromSize(
+                  size: Size(double.infinity, kDeviceCardMargin / 2),
+                ),
+                Center(
+                  child: Text(
+                    'No Devices Found',
+                    style: kDeviceNameTextStyle,
+                  ),
+                )
+              ],
+            );
+          }
         },
       )),
     );

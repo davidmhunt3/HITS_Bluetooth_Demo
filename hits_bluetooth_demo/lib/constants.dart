@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 const kPrimaryColor =
     Colors.black; //Color(0xFF212121); //also the color of the appBar
@@ -19,3 +20,9 @@ const kDeviceNameTextStyle =
     TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kDeviceNameTextStyleSmall =
     TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700);
+
+//device properties
+const kHitsDeviceName = 'HITS';
+Guid kHITSSensorServiceUUID = Guid("f1f1f207-d1dc-4b77-9fec-3267c4dfeb48");
+Guid kGyroLoAccCharacteristicUUID =
+    Guid("27da52f1-e2a3-47f8-946f-2c854afde84c");

@@ -4,19 +4,23 @@ import 'package:hits_bluetooth_demo/utilities/Chart.dart';
 
 class SeriesData {
   String title;
-  List<double> series;
   Color color;
 
-  SeriesData(
-      {@required this.title, @required this.series, this.color = Colors.red});
+  SeriesData({@required this.title, this.color = Colors.red});
 }
 
 class ChartCard extends StatelessWidget {
-  String title;
-  List<SeriesData> chartData;
+  final String title;
+  final List<SeriesData> chartData;
+  final Stream<List<List<double>>> dataSeriesStream;
+  final double chartLeftTitleInterval;
   int numCharts;
 
-  ChartCard({@required this.title, @required this.chartData}) {
+  ChartCard(
+      {@required this.title,
+      @required this.chartData,
+      @required this.dataSeriesStream,
+      @required this.chartLeftTitleInterval}) {
     //Actual Initialization
 
     numCharts = chartData.length;
@@ -66,7 +70,12 @@ class ChartCard extends StatelessWidget {
           SizedBox.fromSize(
             size: Size(double.infinity, 30),
           ),
-          Chart(chartData: chartData, numCharts: numCharts),
+          Chart(
+            chartData: chartData,
+            numCharts: numCharts,
+            seriesDataStream: dataSeriesStream,
+            chartLeftTitleInterval: chartLeftTitleInterval,
+          ),
           SizedBox.fromSize(
             size: Size(double.infinity, 15),
           ),

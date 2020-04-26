@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
 import 'package:hits_bluetooth_demo/screens/Device_Screen.dart';
@@ -6,11 +8,10 @@ import 'package:hits_bluetooth_demo/utilities/BLEDevice.dart';
 class DeviceCard extends StatelessWidget {
   final BLEDevice bleDevice;
   String deviceName;
-  String connectionStatus;
 
+  //initializing the devices
   DeviceCard({@required this.bleDevice}) {
     deviceName = bleDevice.deviceName;
-    connectionStatus = bleDevice.deviceState;
   }
 
   @override
@@ -18,15 +19,17 @@ class DeviceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('$deviceName selected');
-        bleDevice.connect();
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//            builder: (context) {
-//              return DeviceScreen();
-//            },
-//          ),
-//        );
+        //bleDevice.connect();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return DeviceScreen(
+                bleDevice: bleDevice,
+              );
+            },
+          ),
+        );
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(kDeviceCardMargin, kDeviceCardMargin / 2,
@@ -53,7 +56,13 @@ class DeviceCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Text(connectionStatus)
+            StreamBuilder<String>(
+              stream: bleDevice.deviceConnectionStateStream,
+              initialData: 'unknown',
+              builder: (context, snapshot) {
+                return Text(snapshot.data);
+              },
+            )
           ],
         ),
       ),
