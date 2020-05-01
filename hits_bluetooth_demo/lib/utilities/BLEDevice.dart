@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:hits_bluetooth_demo/constants.dart';
 import 'package:hits_bluetooth_demo/utilities/GyroLoAccSensor.dart';
+import 'package:hits_bluetooth_demo/utilities/HiAccSensor.dart';
 import 'DataProcessor.dart';
 import 'BLEDevicesManager.dart';
 
@@ -15,6 +16,7 @@ class BLEDevice {
 
   //stream to manage the device connection state
   BluetoothDeviceState _deviceConnectionState;
+  Timer _connectionTimer; //to try and automatically connect if disconnected
   StreamController _deviceConnectionStateController;
   Stream<String> get deviceConnectionStateStream =>
       _deviceConnectionStateController.stream;
@@ -26,6 +28,7 @@ class BLEDevice {
   //stream to manage the data from the Gyro/LoAcc(low-g)
   BluetoothService _hitsSensorService;
   GyroLoAccSensor gyroLoAccSensor;
+  HiAccSensor hiAccSensor;
 
   //Data Processor
   DataProcessor dataProcessor;
@@ -36,7 +39,8 @@ class BLEDevice {
       deviceName = 'HITS Simulated';
       _deviceConnectionState = BluetoothDeviceState.disconnected;
       _deviceConnectionStateController.sink.add('disconnected');
-      dataProcessor = DataProcessor(gyroLoAccSensor: null, isDebug: true);
+      dataProcessor = DataProcessor(
+          gyroLoAccSensor: null, hiAccSensor: null, isDebug: true);
     } else {
       //get the device name
       deviceName = (bluetoothDevice.name.length > 0)
@@ -55,9 +59,14 @@ class BLEDevice {
       //initialize an instance of GyroLoAccSensor
       gyroLoAccSensor = GyroLoAccSensor();
 
+      //initialize an instance of HiAccSensor
+      hiAccSensor = HiAccSensor();
+
       //initialize an instance of Dataprocessor
-      dataProcessor =
-          DataProcessor(gyroLoAccSensor: gyroLoAccSensor, isDebug: false);
+      dataProcessor = DataProcessor(
+          gyroLoAccSensor: gyroLoAccSensor,
+          hiAccSensor: hiAccSensor,
+          isDebug: false);
     }
     //automatically try to connect if its a HITS sensor
     connectIfHits();
@@ -76,7 +85,8 @@ class BLEDevice {
       print('Device: Debug Connected');
       _deviceConnectionStateController.sink.add('connected');
     } else if (deviceName == kHitsDeviceName) {
-      bluetoothDevice.connect();
+      if (_deviceConnectionState != BluetoothDeviceState.connected)
+        bluetoothDevice.connect();
     }
   }
 
@@ -93,7 +103,14 @@ class BLEDevice {
       print("BLEDevice/connection: state set to $connectionState");
       if (_deviceConnectionState != connectionState) {
         if (connectionState == BluetoothDeviceState.connected) {
+          if (_connectionTimer != null) {
+            _connectionTimer.cancel();
+          }
           bluetoothDevice.discoverServices();
+        }
+        if (connectionState == BluetoothDeviceState.disconnected &&
+            deviceName == kHitsDeviceName) {
+          _connectionTimer = Timer(kConnectionTimer, connectIfHits);
         }
       }
       _deviceConnectionState = connectionState;
@@ -144,6 +161,10 @@ class BLEDevice {
       if (listOfCharacteristics[i].uuid == kGyroLoAccCharacteristicUUID) {
         print("BLEDevice/characteristics: found GyroLoAcc characteristic");
         gyroLoAccSensor.setBLECharacteristic(
+            characteristic: listOfCharacteristics[i]);
+      } else if (listOfCharacteristics[i].uuid == kHiAccCharacteristicUUID) {
+        print("BLEDevice/characteristics: found HiAcc characteristic");
+        hiAccSensor.setBLECharacteristic(
             characteristic: listOfCharacteristics[i]);
       } else {
         print(

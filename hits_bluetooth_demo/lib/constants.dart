@@ -22,7 +22,14 @@ const kDeviceNameTextStyleSmall =
     TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700);
 
 //device properties
+const kConnectionTimer = Duration(
+    seconds: 10); //if disconnected, time to try and reconnect to the sensor
 const kHitsDeviceName = 'HITS';
-Guid kHITSSensorServiceUUID = Guid("f1f1f207-d1dc-4b77-9fec-3267c4dfeb48");
+Guid kHITSSensorServiceUUID = Guid("85373b6e-85b9-11ea-bc55-0242ac130000");
 Guid kGyroLoAccCharacteristicUUID =
-    Guid("27da52f1-e2a3-47f8-946f-2c854afde84c");
+    Guid("85373b6e-85b9-11ea-bc55-0242ac130001");
+Guid kHiAccCharacteristicUUID = Guid("85373b6e-85b9-11ea-bc55-0242ac130002");
+
+//hit detection
+const kHitThreshold = 3.0; //in G's
+const kHardHitThreshold = 7.0; //in G's

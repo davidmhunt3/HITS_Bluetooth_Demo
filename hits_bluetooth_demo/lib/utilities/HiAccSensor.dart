@@ -4,10 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
-class GyroLoAccSensor {
+class HiAccSensor {
   BluetoothCharacteristic _bleCharacteristic;
   StreamSubscription _bleCharacteristicSubscription;
-
   //saving the characteristic value
   //List<int> characteristicValue;
   //the ByteBuffer to be used to convert the raw sensor data to a float
@@ -17,9 +16,6 @@ class GyroLoAccSensor {
   double _curxAcc;
   double _curyAcc;
   double _curzAcc;
-  double _curxGyro;
-  double _curyGyro;
-  double _curzGyro;
 
   //output stream of sensor data
   List<double> _sensorValues;
@@ -29,13 +25,13 @@ class GyroLoAccSensor {
   //variable to keep track of the refresh rate of the sensor
   Stopwatch _stopwatch;
 
-  GyroLoAccSensor() {
-    print("GyroLoAccSensor: Initializing Sensor");
+  HiAccSensor() {
+    print("HiAccSensor: Initializing Sensor");
     //initialize the ByteBuffer
     _byteData = ByteData(4);
 
     //initialize the output stream of values
-    _sensorValues = List.filled(6, 0.0);
+    _sensorValues = List.filled(3, 0.0);
     _sensorValuesController = StreamController<List<double>>();
     _sensorValuesController.sink.add(_sensorValues);
 
@@ -46,7 +42,7 @@ class GyroLoAccSensor {
 
   void setBLECharacteristic(
       {@required BluetoothCharacteristic characteristic}) {
-    print("GyroLoAccSensor/setCharacteristic: New Characteristic Set");
+    print("HiAccSensor/setCharacteristic: New Characteristic Set");
     _bleCharacteristic = characteristic;
 
     //initialize the stream
@@ -58,13 +54,11 @@ class GyroLoAccSensor {
       _curxAcc = _byteArrayToFloat(value, 0);
       _curyAcc = _byteArrayToFloat(value, 4);
       _curzAcc = _byteArrayToFloat(value, 8);
-      _curxGyro = _byteArrayToFloat(value, 12);
-      _curyGyro = _byteArrayToFloat(value, 16);
-      _curzGyro = _byteArrayToFloat(value, 20);
       //printCurrentValues();
       _getRefreshPeriod();
       _updateSensorValuesList();
       _sensorValuesController.sink.add(_sensorValues);
+      //_printCurrentValues();
     });
 
     //set the characteristic to notify when new values are available
@@ -84,20 +78,13 @@ class GyroLoAccSensor {
     _sensorValues[0] = _curxAcc;
     _sensorValues[1] = _curyAcc;
     _sensorValues[2] = _curzAcc;
-    _sensorValues[3] = _curxGyro;
-    _sensorValues[4] = _curyGyro;
-    _sensorValues[5] = _curzGyro;
   }
 
   void _printCurrentValues() {
-    print("GyroLoAccSensor/AccValues: "
+    print("HiAccSensor/AccValues: "
         "x-axis: ${_curxAcc.toStringAsFixed(2)} "
         "y-axis: ${_curyAcc.toStringAsFixed(2)} "
-        "z-axis: ${_curzAcc.toStringAsFixed(2)} /n/"
-        "GyroValues: "
-        "x-axis: ${_curxGyro.toStringAsFixed(2)} "
-        "y-axis: ${_curyGyro.toStringAsFixed(2)} "
-        "z-axis: ${_curzGyro.toStringAsFixed(2)}");
+        "z-axis: ${_curzAcc.toStringAsFixed(2)} /n/");
     return;
   }
 
